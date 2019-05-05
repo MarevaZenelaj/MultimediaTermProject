@@ -1,0 +1,8 @@
+- run the models
+- get pictures for every 10 different numbers
+- write flowchart of the codes
+- write how the models work, shortly
+- write demo code
+- app code
+
+presentation - add models used (explain the models, extremely short), results, comparisons, pictures of every digit being predicted
