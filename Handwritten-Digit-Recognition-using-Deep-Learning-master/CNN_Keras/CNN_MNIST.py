@@ -7,7 +7,6 @@ from keras.optimizers import SGD
 from sklearn.datasets import fetch_mldata
 from sklearn.model_selection import train_test_split
 
-
 # Parse the Arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--save_model", type=int, default=-1)
@@ -61,16 +60,11 @@ if args["save_model"] > 0:
 	print('Saving weights to file...')
 	clf.save_weights(args["save_weights"], overwrite=True)
 
-list_numbers = {155}
-count = 0
 # Show the images using OpenCV and making random selections.
-for num in np.random.choice(np.arange(0, len(test_labels)), size=(5,)):
+for num in np.random.choice(np.arange(0, len(test_labels)), size=(10,)):
 	# Predict the label of digit using CNN.
 	probs = clf.predict(test_img[np.newaxis, num])
 	prediction = probs.argmax(axis=1)
-	list_numbers.add(prediction[0])
-	if len(list_numbers) == 10:
-		break
 	# Resize the Image to 100x100 from 28x28 for better view.
 	image = (test_img[num][0] * 255).astype("uint8")
 	image = cv2.merge([image] * 3)
@@ -79,8 +73,7 @@ for num in np.random.choice(np.arange(0, len(test_labels)), size=(5,)):
 
 	# Show and print the Actual Image and Predicted Label Value
 	print('Predicted Label: {}, Actual Value: {}'.format(prediction[0],np.argmax(test_labels[num])))
-	name = "Digits" + str(count) + '.jpg'
+	name = "Digits" + str(prediction) + '.jpg'
 	cv2.imwrite(name, image)
-	count += 1
 
 #---------------------- EOC ---------------------

@@ -1,0 +1,2 @@
+Accuracy of Model: 98.67%
+CNN model
