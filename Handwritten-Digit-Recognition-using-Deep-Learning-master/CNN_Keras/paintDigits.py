@@ -29,7 +29,7 @@ def rgb2gray(rgb):
 def main():
     root = Tk()
     root.title("Canvas Draw")
-    drawing_area = Canvas(root,width=600,height=600)
+    drawing_area = Canvas(root,width=400,height=400)
     drawing_area.pack()
     drawing_area.bind("<Motion>", motion)
     drawing_area.bind("<ButtonPress-1>", b1down)
@@ -48,15 +48,15 @@ def main():
         drawing_area.postscript(file=fileName+ '.eps') 
         # use PIL to convert to PNG 
         img = Image.open(fileName + '.eps') 
-        img.save(fileName + '.png', 'png')
         cv_image = np.array(img)
+        cv2.imshow('a', cv_image)
         cv_image = cv2.resize(cv_image, (28, 28), interpolation=cv2.INTER_LINEAR)
         cv_image = rgb2gray(cv_image)
-        print(cv_image.shape)
         cv_image = cv_image.astype('float32')
         cv_image /= 255
-        cv_image.reshape(28,28,1)
-        probs = loaded_model.predict(cv_image[np.newaxis])
+        cv_image = np.reshape(cv_image, (1, 28, 28, 1))
+        #cv_image = cv_image[np.newaxis]
+        probs = loaded_model.predict(cv_image)
         prediction = probs.argmax(axis=1)
         print(prediction)
 
@@ -77,7 +77,7 @@ def motion(event):
     if b1 == "down":
         global xold, yold
         if xold is not None and yold is not None:
-            event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE)
+            event.widget.create_line(xold,yold,event.x,event.y,width=5,smooth=TRUE)
         xold = event.x
         yold = event.y
 
